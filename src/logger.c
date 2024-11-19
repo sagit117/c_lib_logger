@@ -2,7 +2,6 @@
 
 #include <stdarg.h> // va
 #include <time.h>   // time_t
-#include <string.h> // strdup
 
 static char *level_str(int level) {
     switch (level) {
