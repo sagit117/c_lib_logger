@@ -25,10 +25,8 @@ void log_format(const int level, const char *message, va_list vl) {
         char datestr[20];
         strftime(datestr, sizeof(datestr), "%Y-%m-%d %T", now);
 
-        char buf[logger.max_size];
-        vsnprintf(buf, sizeof(buf), message, vl);
-        
-        char *fmt_message = strdup(buf);
+        char fmt_message[logger.max_size];
+        vsnprintf(fmt_message, sizeof(fmt_message), message, vl);
 
         fprintf(logger.out, "%s [%7s]: %s\n", datestr, level_str(level), fmt_message);
     }
