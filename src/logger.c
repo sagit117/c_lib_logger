@@ -14,7 +14,7 @@ static char *level_str(int level) {
     };
 }
 
-void log_format(const int level, const char *message, va_list vl) {
+void log_format(const int level, const char *message, va_list *vl) {
     extern Logger logger;
 
     if (level >= logger.level) {
@@ -25,7 +25,7 @@ void log_format(const int level, const char *message, va_list vl) {
         strftime(datestr, sizeof(datestr), "%Y-%m-%d %T", now);
 
         char fmt_message[logger.max_size];
-        vsnprintf(fmt_message, sizeof(fmt_message), message, vl);
+        vsnprintf(fmt_message, sizeof(fmt_message), message, *vl);
 
         fprintf(logger.out, "%s [%7s]: %s\n", datestr, level_str(level), fmt_message);
     }
@@ -35,7 +35,7 @@ void log_error(const char *message, ...) {
     va_list vl;   
     va_start(vl, message);
 
-    log_format(ERROR, message, vl);
+    log_format(ERROR, message, &vl);
 
     va_end(vl);
 }
@@ -44,7 +44,7 @@ void log_warning(const char *message, ...) {
     va_list vl;   
     va_start(vl, message);
 
-    log_format(WARNING, message, vl);
+    log_format(WARNING, message, &vl);
 
     va_end(vl);
 }
@@ -53,7 +53,7 @@ void log_info(const char *message, ...) {
     va_list vl;   
     va_start(vl, message);
 
-    log_format(INFO, message, vl);
+    log_format(INFO, message, &vl);
 
     va_end(vl);
 }
@@ -62,7 +62,7 @@ void log_debug(const char *message, ...) {
     va_list vl;   
     va_start(vl, message);
 
-    log_format(DEBUG, message, vl);
+    log_format(DEBUG, message, &vl);
 
     va_end(vl);
 }
@@ -71,7 +71,7 @@ void log_message(const int level, const char *fmt, ...) {
     va_list vl;
     va_start(vl, fmt);
 
-    log_format(level, fmt, vl);
+    log_format(level, fmt, &vl);
 
     va_end(vl);
 }
