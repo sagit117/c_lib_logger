@@ -3,7 +3,7 @@ TARGET = logger
 
 all: $(TARGET)
 
-logger.o:  ./bin/logger.h
+logger.o:  ./bin/logger.h ./src/logger.c
 	$(CC) -c -fPIC ./src/*.c
 
 $(TARGET): logger.o
